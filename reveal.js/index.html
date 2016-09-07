@@ -48,29 +48,25 @@
 				</section>
 
         <section>
+          <h2>Why?</h2>
+          <img data-src="http://stylehomepage.com/wp-content/uploads/2016/02/blankspacegif.gif">
+          <aside class="notes">
+            We deploy continuously and event data is being constantly emitted.  We want to ensure data is not lost or duplicated on restarts.  I want to give a brief overview of forever, and it's simple to implement things like graceful shutdown, clustering, etc
+          </aside>
+        </section>
+        <section>
           <h2>Daemon</h2>
 					<blockquote cite="https://en.wikipedia.org/wiki/Daemon_(computing)">
             &ldquo;a daemon (/ˈdiːmən/ or /ˈdeɪmən/)[1] is a computer program that runs as a background process, rather than being under the direct control of an interactive user&rdquo;
 					</blockquote>
         </section>
-				<section>
-          <section>
-            <h2>Why?</h2>
-            <img data-src="http://stylehomepage.com/wp-content/uploads/2016/02/blankspacegif.gif">
-          </section>
-          <section>
-            <h2>Deployment Model</h2>
-            <ul>
-              <li class="fragment">Test</li>
-              <li class="fragment">Build</li>
-              <li class="fragment">Package</li>
-              <li class="fragment">Deploy</li>
-          </section>
+        <section>
           <section>
             <h2>Options</h2>
             <ul>
             <li class="fragment">upstart</li>
             <li class="fragment">System V(init.d)</li>
+            <li class="fragment">monit</li>
             <li class="fragment">forever</li>
             <li class="fragment">pm2</li>
             <li class="fragment">nodemon</li>
@@ -88,6 +84,9 @@
               <li class="fragment">Truncate logs</li>
 
             </ul>
+            <aside class="notes">
+              Simple, and just works. I've read a lot of issues with pm2 not restarting scripts when they crash. you want something that is reliable and just does its job
+            </aside>
           </section>
           <section data-markdown>
             <script type="text/template">
@@ -114,7 +113,10 @@
                  GRACEFUL SHUTDOWN LOGIC HERE
                 **/
               });
+
               ```
+              Note:
+              Unbind from message queues, allow for messages in memory to be acked or put back on queue
             </script>
           </section>
           <section data-markdown>
@@ -157,6 +159,8 @@
 
               });
               ```
+              Note:
+              This does things that pm2 says it can do out of the box. clustering, simple to iterate and create forever monitor proceses, graceful shutdown, 0 downtime(we do this in nginx)
             </script>
           </section>
           <section data-markdown>
